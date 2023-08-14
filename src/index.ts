@@ -2,7 +2,8 @@ import { User } from './models/User'
 
 const user = new User({ name: 'myName', age: 36  })
 
-user.set( { name: 'newName'})
+user.on('change', () => {})
+user.on('change', () => {})
+user.on('randomManIndustries', () => {})
 
-console.log(user.get('name'))
-console.log(user.get('age'))
+console.log(user)

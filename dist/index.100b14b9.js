@@ -579,11 +579,10 @@ const user = new (0, _user.User)({
     name: "myName",
     age: 36
 });
-user.set({
-    name: "newName"
-});
-console.log(user.get("name"));
-console.log(user.get("age"));
+user.on("change", ()=>{});
+user.on("change", ()=>{});
+user.on("randomManIndustries", ()=>{});
+console.log(user);
 
 },{"./models/User":"juUJZ"}],"juUJZ":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -600,7 +599,11 @@ class User {
     set(update) {
         Object.assign(this.data, update);
     }
-    on(eventName, callback) {}
+    on(eventName, callback) {
+        const handlers = this.events[eventName] || [];
+        handlers.push(callback);
+        this.events[eventName] = handlers;
+    }
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"2J7cN"}],"2J7cN":[function(require,module,exports) {
