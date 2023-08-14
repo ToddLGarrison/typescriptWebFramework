@@ -580,8 +580,7 @@ const user = new (0, _user.User)({
     age: 36
 });
 user.set({
-    name: "newName",
-    age: 1235234
+    name: "newName"
 });
 console.log(user.get("name"));
 console.log(user.get("age"));
