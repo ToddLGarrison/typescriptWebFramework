@@ -592,6 +592,7 @@ parcelHelpers.export(exports, "User", ()=>User);
 class User {
     constructor(data){
         this.data = data;
+        this.events = {};
     }
     get(propName) {
         return this.data[propName];
