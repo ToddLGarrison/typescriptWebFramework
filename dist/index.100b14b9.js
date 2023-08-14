@@ -593,6 +593,9 @@ class User {
     get(propName) {
         return this.data[propName];
     }
+    set(update) {
+        Object.assign(this.data, update);
+    }
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"2J7cN"}],"2J7cN":[function(require,module,exports) {
