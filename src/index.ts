@@ -12,4 +12,4 @@ user.on('randomManIndustries', () => {
     console.log('You got a random job, we will solve it')
 })
 
-user.trigger();
+// user.trigger();

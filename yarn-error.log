@@ -1,0 +1,36 @@
+Arguments: 
+  /Users/toddgarrison/.nvm/versions/node/v16.18.1/bin/node /opt/homebrew/Cellar/yarn/1.22.19/libexec/bin/yarn.js run axios
+
+PATH: 
+  /Users/toddgarrison/.nvm/versions/node/v16.18.1/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Postgres.app/Contents/Versions/latest/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  16.18.1
+
+Platform: 
+  darwin arm64
+
+Trace: 
+  SyntaxError: /Users/toddgarrison/challenges/typescriptWebFramework/package.json: Unexpected token / in JSON at position 55
+      at JSON.parse (<anonymous>)
+      at /opt/homebrew/Cellar/yarn/1.22.19/libexec/lib/cli.js:1629:59
+      at Generator.next (<anonymous>)
+      at step (/opt/homebrew/Cellar/yarn/1.22.19/libexec/lib/cli.js:310:30)
+      at /opt/homebrew/Cellar/yarn/1.22.19/libexec/lib/cli.js:321:13
+
+npm manifest: 
+  {
+    "dependencies": {
+      "json-server": "^0.17.3"
+      // "start:parcel": "npx parcel index.html"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
