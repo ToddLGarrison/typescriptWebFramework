@@ -579,10 +579,16 @@ const user = new (0, _user.User)({
     name: "myName",
     age: 36
 });
-user.on("change", ()=>{});
-user.on("change", ()=>{});
-user.on("randomManIndustries", ()=>{});
-console.log(user);
+user.on("change", ()=>{
+    console.log("Change number 1");
+});
+user.on("change", ()=>{
+    console.log("Change number 2");
+});
+user.on("randomManIndustries", ()=>{
+    console.log("You got a random job, we will solve it");
+});
+user.trigger();
 
 },{"./models/User":"juUJZ"}],"juUJZ":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -603,6 +609,13 @@ class User {
         const handlers = this.events[eventName] || [];
         handlers.push(callback);
         this.events[eventName] = handlers;
+    }
+    trigger(eventName) {
+        const handlers = this.events[eventName];
+        if (!handlers || handlers.length === 0) return;
+        handlers.forEach((callback)=>{
+            callback();
+        });
     }
 }
 
