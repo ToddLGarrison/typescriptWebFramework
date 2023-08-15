@@ -579,7 +579,10 @@ const user = new (0, _user.User)({
     name: "new record",
     age: 1
 });
-user.save();
+user.events.on("change", ()=>{
+    console.log("change!");
+});
+user.events.trigger("change");
 
 },{"./models/User":"4rcHn"}],"4rcHn":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
