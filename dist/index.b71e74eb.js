@@ -587,9 +587,11 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "User", ()=>User);
 var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
+var _eventing = require("./Eventing");
 class User {
     constructor(data){
         this.data = data;
+        this.events = new (0, _eventing.Eventing)();
     }
     get(propName) {
         return this.data[propName];
@@ -609,7 +611,7 @@ class User {
     }
 }
 
-},{"axios":"jo6P5","@parcel/transformer-js/src/esmodule-helpers.js":"2J7cN"}],"jo6P5":[function(require,module,exports) {
+},{"axios":"jo6P5","@parcel/transformer-js/src/esmodule-helpers.js":"2J7cN","./Eventing":"7459s"}],"jo6P5":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "default", ()=>(0, _axiosJsDefault.default));
@@ -4963,6 +4965,28 @@ Object.entries(HttpStatusCode).forEach(([key, value])=>{
     HttpStatusCode[value] = key;
 });
 exports.default = HttpStatusCode;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"2J7cN"}],"7459s":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Eventing", ()=>Eventing);
+class Eventing {
+    on(eventName, callback) {
+        const handlers = this.events[eventName] || [];
+        handlers.push(callback);
+        this.events[eventName] = handlers;
+    }
+    trigger(eventName) {
+        const handlers = this.events[eventName];
+        if (!handlers || handlers.length === 0) return;
+        handlers.forEach((callback)=>{
+            callback();
+        });
+    }
+    constructor(){
+        this.events = {};
+    }
+}
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"2J7cN"}]},["dgjXB","h7u1C"], "h7u1C", "parcelRequire94c2")
 
