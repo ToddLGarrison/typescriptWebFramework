@@ -1,6 +1,3 @@
 import axios from 'axios';
 
-axios.post('http://localhost:3000/users', {
-    name: 'myName',
-    age: 36
-});
+axios.post('http://localhost:3000/users/2');
