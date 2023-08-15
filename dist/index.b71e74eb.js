@@ -614,6 +614,11 @@ class User {
             this.set(response.data);
         });
     }
+    save() {
+        const id = this.get("id");
+        if (id) (0, _axiosDefault.default).put(`http://localhost:3000/users/${id}`, this.data);
+        else (0, _axiosDefault.default).post("http://localhost:3000/users", this.data);
+    }
 }
 
 },{"axios":"jo6P5","@parcel/transformer-js/src/esmodule-helpers.js":"2J7cN"}],"jo6P5":[function(require,module,exports) {
