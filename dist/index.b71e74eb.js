@@ -575,11 +575,14 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 
 },{}],"h7u1C":[function(require,module,exports) {
 var _user = require("./models/User");
-const user = new (0, _user.User);
-user.events.on("change", ()=>{
-    console.log("change!");
+const user = new (0, _user.User)({
+    name: "new record",
+    age: 42
 });
-user.events.trigger("change");
+user.on("change", ()=>{
+    console.log("User was updated");
+});
+user.trigger("change");
 
 },{"./models/User":"4rcHn"}],"4rcHn":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -594,6 +597,15 @@ class User {
         this.events = new (0, _eventing.Eventing)();
         this.sync = new (0, _sync.Sync)(rootUrl);
         this.attributes = new (0, _attributes.Attributes)(attrs);
+    }
+    get on() {
+        return this.events.on;
+    }
+    get trigger() {
+        return this.events.trigger;
+    }
+    get get() {
+        return this.attributes.get;
     }
 }
 
@@ -632,20 +644,20 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Eventing", ()=>Eventing);
 class Eventing {
-    on(eventName, callback) {
-        const handlers = this.events[eventName] || [];
-        handlers.push(callback);
-        this.events[eventName] = handlers;
-    }
-    trigger(eventName) {
-        const handlers = this.events[eventName];
-        if (!handlers || handlers.length === 0) return;
-        handlers.forEach((callback)=>{
-            callback();
-        });
-    }
     constructor(){
         this.events = {};
+        this.on = (eventName, callback)=>{
+            const handlers = this.events[eventName] || [];
+            handlers.push(callback);
+            this.events[eventName] = handlers;
+        };
+        this.trigger = (eventName)=>{
+            const handlers = this.events[eventName];
+            if (!handlers || handlers.length === 0) return;
+            handlers.forEach((callback)=>{
+                callback();
+            });
+        };
     }
 }
 
@@ -5001,9 +5013,9 @@ parcelHelpers.export(exports, "Attributes", ()=>Attributes);
 class Attributes {
     constructor(data){
         this.data = data;
-    }
-    get(key) {
-        return this.data[key];
+        this.get = (key)=>{
+            return this.data[key];
+        };
     }
     set(update) {
         Object.assign(this.data, update);
