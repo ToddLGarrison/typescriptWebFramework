@@ -614,7 +614,7 @@ class User {
         const id = this.attributes.get("id");
         if (typeof id !== "number") throw new Error("Cannot fetch without an id ;");
         this.sync.fetch(id).then((response)=>{
-            this.attributes.set(response.data);
+            this.set(response.data);
         });
     }
 }
