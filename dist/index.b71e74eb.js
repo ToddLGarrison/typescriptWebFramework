@@ -617,6 +617,13 @@ class User {
             this.set(response.data);
         });
     }
+    save() {
+        this.sync.save(this.attributes.getAll()).then((response)=>{
+            this.trigger("save");
+        }).catch(()=>{
+            this.trigger("error");
+        });
+    }
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"2J7cN","./Eventing":"7459s","./Sync":"QO3Gl","./Attributes":"6Bbds"}],"2J7cN":[function(require,module,exports) {
@@ -5029,6 +5036,9 @@ class Attributes {
     }
     set(update) {
         Object.assign(this.data, update);
+    }
+    getAll() {
+        return this.data;
     }
 }
 
