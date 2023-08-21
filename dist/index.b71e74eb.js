@@ -599,33 +599,6 @@ class User {
         this.sync = new (0, _sync.Sync)(rootUrl);
         this.attributes = new (0, _attributes.Attributes)(attrs);
     }
-    get on() {
-        return this.events.on;
-    }
-    get trigger() {
-        return this.events.trigger;
-    }
-    get get() {
-        return this.attributes.get;
-    }
-    set(update) {
-        this.attributes.set(update);
-        this.events.trigger("change");
-    }
-    fetch() {
-        const id = this.attributes.get("id");
-        if (typeof id !== "number") throw new Error("Cannot fetch without an id ;");
-        this.sync.fetch(id).then((response)=>{
-            this.set(response.data);
-        });
-    }
-    save() {
-        this.sync.save(this.attributes.getAll()).then((response)=>{
-            this.trigger("save");
-        }).catch(()=>{
-            this.trigger("error");
-        });
-    }
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"2J7cN","./Eventing":"7459s","./Sync":"QO3Gl","./Attributes":"6Bbds"}],"2J7cN":[function(require,module,exports) {
