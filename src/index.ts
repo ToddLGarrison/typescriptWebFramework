@@ -1,9 +1,9 @@
 import { User } from './models/User';
 
-const user = new User({ name: 'new record', age: 42})
+const user = new User({ id: 1})
 
 user.on('change', () =>{
-    console.log('User was updated');
+    console.log(user);
 })
 
-user.set({ name: 'New new name' })
+user.fetch();

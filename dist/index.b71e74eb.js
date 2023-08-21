@@ -576,15 +576,12 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 },{}],"h7u1C":[function(require,module,exports) {
 var _user = require("./models/User");
 const user = new (0, _user.User)({
-    name: "new record",
-    age: 42
+    id: 1
 });
 user.on("change", ()=>{
-    console.log("User was updated");
+    console.log(user);
 });
-user.set({
-    name: "New new name"
-});
+user.fetch();
 
 },{"./models/User":"4rcHn"}],"4rcHn":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
