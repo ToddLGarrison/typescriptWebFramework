@@ -6,4 +6,4 @@ user.on('change', () =>{
     console.log('User was updated');
 })
 
-user.trigger('change')
+user.set({ name: 'New new name' })

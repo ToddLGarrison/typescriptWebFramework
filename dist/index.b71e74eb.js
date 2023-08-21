@@ -582,7 +582,9 @@ const user = new (0, _user.User)({
 user.on("change", ()=>{
     console.log("User was updated");
 });
-user.trigger("change");
+user.set({
+    name: "New new name"
+});
 
 },{"./models/User":"4rcHn"}],"4rcHn":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -606,6 +608,17 @@ class User {
     }
     get get() {
         return this.attributes.get;
+    }
+    set(update) {
+        this.attributes.set(update);
+        this.events.trigger("change");
+    }
+    fetch() {
+        const id = this.attributes.get("id");
+        if (typeof id !== "number") throw new Error("Cannot fetch without an id ;");
+        this.sync.fetch(id).then((response)=>{
+            this.attributes.set(response.data);
+        });
     }
 }
 
