@@ -600,7 +600,7 @@ class User extends (0, _model.Model) {
     }
 }
 
-},{"./Model":"f033k","./Attributes":"6Bbds","./ApiSync":"3wylh","./Eventing":"7459s","@parcel/transformer-js/src/esmodule-helpers.js":"2J7cN","./Collection":"dD11O"}],"f033k":[function(require,module,exports) {
+},{"./Model":"f033k","./Attributes":"6Bbds","./ApiSync":"3wylh","./Eventing":"7459s","./Collection":"dD11O","@parcel/transformer-js/src/esmodule-helpers.js":"2J7cN"}],"f033k":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Model", ()=>Model);
