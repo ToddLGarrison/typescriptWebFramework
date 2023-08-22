@@ -574,14 +574,16 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 }
 
 },{}],"h7u1C":[function(require,module,exports) {
+var _userForm = require("./views/UserForm");
 var _user = require("./models/User");
-const collection = (0, _user.User).buildUserCollection();
-collection.on("change", ()=>{
-    console.log(collection);
+const user = (0, _user.User).buildUser({
+    name: "John",
+    age: 20
 });
-collection.fetch();
+const userForm = new (0, _userForm.UserForm)(document.getElementById("root"), user);
+userForm.render();
 
-},{"./models/User":"4rcHn"}],"4rcHn":[function(require,module,exports) {
+},{"./models/User":"4rcHn","./views/UserForm":"gXSLD"}],"4rcHn":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "User", ()=>User);
@@ -5079,6 +5081,55 @@ class Collection {
     }
 }
 
-},{"axios":"jo6P5","./Eventing":"7459s","@parcel/transformer-js/src/esmodule-helpers.js":"2J7cN"}]},["dgjXB","h7u1C"], "h7u1C", "parcelRequire94c2")
+},{"axios":"jo6P5","./Eventing":"7459s","@parcel/transformer-js/src/esmodule-helpers.js":"2J7cN"}],"gXSLD":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "UserForm", ()=>UserForm);
+class UserForm {
+    constructor(parent, model){
+        this.parent = parent;
+        this.model = model;
+    }
+    eventsMap() {
+        return {
+            "click:button": this.onButtonClick,
+            "mouseenter:h1": this.onHeaderHover
+        };
+    }
+    onHeaderHover() {
+        console.log("H1 was hovered over");
+    }
+    onButtonClick() {
+        console.log("onButtonClick");
+    }
+    template() {
+        return `
+            <div>
+                <h1>User Form</h1>
+                <div>User name: ${this.model.get("name")}</div>
+                <div>User age: ${this.model.get("age")}</div>
+                <input/>
+                <button>Click Me</button>
+            </div>
+        `;
+    }
+    bindEvents(fragment) {
+        const eventsMap = this.eventsMap();
+        for(let eventKey in eventsMap){
+            const [eventName, selector] = eventKey.split(":");
+            fragment.querySelectorAll(selector).forEach((element)=>{
+                element.addEventListener(eventName, eventsMap[eventKey]);
+            });
+        }
+    }
+    render() {
+        const templateElement = document.createElement("template");
+        templateElement.innerHTML = this.template();
+        this.bindEvents(templateElement.content);
+        this.parent.append(templateElement.content);
+    }
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"2J7cN"}]},["dgjXB","h7u1C"], "h7u1C", "parcelRequire94c2")
 
 //# sourceMappingURL=index.b71e74eb.js.map
