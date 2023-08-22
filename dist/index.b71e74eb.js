@@ -583,20 +583,44 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "UserForm", ()=>UserForm);
 class UserForm {
-    constructor(parent){
+    constructor(parent, model){
         this.parent = parent;
+        this.model = model;
+    }
+    eventsMap() {
+        return {
+            "click:button": this.onButtonClick,
+            "mouseenter:h1": this.onHeaderHover
+        };
+    }
+    onHeaderHover() {
+        console.log("H1 was hovered over");
+    }
+    onButtonClick() {
+        console.log("onButtonClick");
     }
     template() {
         return `
             <div>
                 <h1>User Form</h1>
                 <input/>
+                <button>Click Me</button>
             </div>
         `;
+    }
+    bindEvents(fragment) {
+        const eventsMap = this.eventsMap();
+        for(let eventKey in eventsMap){
+            const [eventName, selector] = eventKey.split(":");
+            fragment.querySelectorAll(selector).forEach((element)=>{
+                element.addEventListener(eventName, eventsMap[eventKey]);
+            });
+        }
     }
     render() {
         const templateElement = document.createElement("template");
         templateElement.innerHTML = this.template();
+        this.bindEvents(templateElement.content);
         this.parent.append(templateElement.content);
     }
 }
