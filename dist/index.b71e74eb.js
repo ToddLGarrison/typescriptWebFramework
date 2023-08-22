@@ -600,6 +600,12 @@ class User extends (0, _model.Model) {
     static buildUserCollection() {
         return new (0, _collection.Collection)(rootUrl, (json)=>User.buildUser(json));
     }
+    setRandomAge() {
+        const age = Math.round(Math.random() * 100);
+        this.set({
+            age
+        });
+    }
 }
 
 },{"./Model":"f033k","./Attributes":"6Bbds","./ApiSync":"3wylh","./Eventing":"7459s","./Collection":"dD11O","@parcel/transformer-js/src/esmodule-helpers.js":"2J7cN"}],"f033k":[function(require,module,exports) {
@@ -5089,18 +5095,29 @@ class UserForm {
     constructor(parent, model){
         this.parent = parent;
         this.model = model;
+
+        this.onSetAgeClick = ()=>{
+            this.model.setRandomAge();
+        };
+        this.onSetNameClick = ()=>{
+            const input = this.parent.querySelector("input");
+            const name = input.value;
+            this.model.set({
+                name
+            });
+        };
+        this.bindModel();
+    }
+    bindModel() {
+        this.model.on("change", ()=>{
+            this.render();
+        });
     }
     eventsMap() {
         return {
-            "click:button": this.onButtonClick,
-            "mouseenter:h1": this.onHeaderHover
+            "click:.set-age": this.onSetAgeClick,
+            "click:.set-name": this.onSetNameClick
         };
-    }
-    onHeaderHover() {
-        console.log("H1 was hovered over");
-    }
-    onButtonClick() {
-        console.log("onButtonClick");
     }
     template() {
         return `
@@ -5109,7 +5126,8 @@ class UserForm {
                 <div>User name: ${this.model.get("name")}</div>
                 <div>User age: ${this.model.get("age")}</div>
                 <input/>
-                <button>Click Me</button>
+                <button class="set-name">Update Name</button>
+                <button class="set-age">Set Random Age</button>
             </div>
         `;
     }
@@ -5123,8 +5141,10 @@ class UserForm {
         }
     }
     render() {
+        this.parent.innerHTML = "";
         const templateElement = document.createElement("template");
         templateElement.innerHTML = this.template();
+      
         this.bindEvents(templateElement.content);
         this.parent.append(templateElement.content);
     }
