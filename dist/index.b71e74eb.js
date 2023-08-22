@@ -600,6 +600,12 @@ class User extends (0, _model.Model) {
     static buildUserCollection() {
         return new (0, _collection.Collection)(rootUrl, (json)=>User.buildUser(json));
     }
+    setRandomAge() {
+        const age = Math.round(Math.random() * 100);
+        this.set({
+            age
+        });
+    }
 }
 
 },{"./Model":"f033k","./Attributes":"6Bbds","./ApiSync":"3wylh","./Eventing":"7459s","./Collection":"dD11O","@parcel/transformer-js/src/esmodule-helpers.js":"2J7cN"}],"f033k":[function(require,module,exports) {
@@ -5089,14 +5095,20 @@ class UserForm {
     constructor(parent, model){
         this.parent = parent;
         this.model = model;
+        this.onSetAgeClick = ()=>{
+            this.model.setRandomAge();
+        };
+        this.bindModel();
+    }
+    bindModel() {
+        this.model.on("change", ()=>{
+            this.render();
+        });
     }
     eventsMap() {
         return {
             "click:.set-age": this.onSetAgeClick
         };
-    }
-    onSetAgeClick() {
-        console.log("Hello there!");
     }
     template() {
         return `
