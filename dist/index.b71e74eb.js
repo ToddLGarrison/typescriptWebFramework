@@ -5098,6 +5098,13 @@ class UserForm {
         this.onSetAgeClick = ()=>{
             this.model.setRandomAge();
         };
+        this.onSetNameClick = ()=>{
+            const input = this.parent.querySelector("input");
+            const name = input.value;
+            this.model.set({
+                name
+            });
+        };
         this.bindModel();
     }
     bindModel() {
@@ -5107,7 +5114,8 @@ class UserForm {
     }
     eventsMap() {
         return {
-            "click:.set-age": this.onSetAgeClick
+            "click:.set-age": this.onSetAgeClick,
+            "click:.set-name": this.onSetNameClick
         };
     }
     template() {
@@ -5117,7 +5125,7 @@ class UserForm {
                 <div>User name: ${this.model.get("name")}</div>
                 <div>User age: ${this.model.get("age")}</div>
                 <input/>
-                <button>Click Me</button>
+                <button class="set-name">Update Name</button>
                 <button class="set-age">Set Random Age</button>
             </div>
         `;
@@ -5132,6 +5140,7 @@ class UserForm {
         }
     }
     render() {
+        this.parent.innerHTML = "";
         const templateElement = document.createElement("template");
         templateElement.innerHTML = this.template();
         this.bindEvents(templateElement.content);
