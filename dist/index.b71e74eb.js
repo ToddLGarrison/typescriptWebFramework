@@ -574,16 +574,20 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 }
 
 },{}],"h7u1C":[function(require,module,exports) {
-var _userForm = require("./views/UserForm");
 var _user = require("./models/User");
+var _userEdit = require("./views/UserEdit");
 const user = (0, _user.User).buildUser({
     name: "John",
     age: 20
 });
-const userForm = new (0, _userForm.UserForm)(document.getElementById("root"), user);
-userForm.render();
+const root = document.getElementById("root");
+if (root) {
+    const userEdit = new (0, _userEdit.UserEdit)(root, user);
+    userEdit.render();
+    console.log(userEdit);
+} else throw new Error("Root element not found");
 
-},{"./models/User":"4rcHn","./views/UserForm":"gXSLD"}],"4rcHn":[function(require,module,exports) {
+},{"./models/User":"4rcHn","./views/UserEdit":"3CihC"}],"4rcHn":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "User", ()=>User);
@@ -5087,7 +5091,86 @@ class Collection {
     }
 }
 
-},{"axios":"jo6P5","./Eventing":"7459s","@parcel/transformer-js/src/esmodule-helpers.js":"2J7cN"}],"gXSLD":[function(require,module,exports) {
+},{"axios":"jo6P5","./Eventing":"7459s","@parcel/transformer-js/src/esmodule-helpers.js":"2J7cN"}],"3CihC":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "UserEdit", ()=>UserEdit);
+var _view = require("./View");
+var _userForm = require("./UserForm");
+var _userShow = require("./UserShow");
+class UserEdit extends (0, _view.View) {
+    regionsMap() {
+        return {
+            userShow: ".user-show",
+            userForm: ".user-form"
+        };
+    }
+    onRender() {
+        new (0, _userShow.UserShow)(this.regions.userShow, this.model).render();
+        new (0, _userForm.UserForm)(this.regions.userForm, this.model).render();
+    }
+    template() {
+        return `
+            <div>
+                <div class="user-show"></div>
+                <div class="user-form"></div>
+            </div>
+        `;
+    }
+}
+
+},{"./View":"5Vo78","./UserForm":"gXSLD","./UserShow":"2Tlyi","@parcel/transformer-js/src/esmodule-helpers.js":"2J7cN"}],"5Vo78":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "View", ()=>View);
+class View {
+    constructor(parent, model){
+        this.parent = parent;
+        this.model = model;
+        this.regions = {};
+        this.bindModel();
+    }
+    regionsMap() {
+        return {};
+    }
+    eventsMap() {
+        return {};
+    }
+    bindModel() {
+        this.model.on("change", ()=>{
+            this.render();
+        });
+    }
+    bindEvents(fragment) {
+        const eventsMap = this.eventsMap();
+        for(let eventKey in eventsMap){
+            const [eventName, selector] = eventKey.split(":");
+            fragment.querySelectorAll(selector).forEach((element)=>{
+                element.addEventListener(eventName, eventsMap[eventKey]);
+            });
+        }
+    }
+    mapRegions(fragment) {
+        const regionsMap = this.regionsMap();
+        for(let key in regionsMap){
+            const selector = regionsMap[key];
+            const element = fragment.querySelector(selector);
+            if (element) this.regions[key] = element;
+        }
+    }
+    onRender() {}
+    render() {
+        this.parent.innerHTML = "";
+        const templateElement = document.createElement("template");
+        templateElement.innerHTML = this.template();
+        this.bindEvents(templateElement.content);
+        this.mapRegions(templateElement.content);
+        this.onRender();
+        this.parent.append(templateElement.content);
+    }
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"2J7cN"}],"gXSLD":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "UserForm", ()=>UserForm);
@@ -5130,39 +5213,23 @@ class UserForm extends (0, _view.View) {
     }
 }
 
-},{"./View":"5Vo78","@parcel/transformer-js/src/esmodule-helpers.js":"2J7cN"}],"5Vo78":[function(require,module,exports) {
+},{"./View":"5Vo78","@parcel/transformer-js/src/esmodule-helpers.js":"2J7cN"}],"2Tlyi":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "View", ()=>View);
-class View {
-    constructor(parent, model){
-        this.parent = parent;
-        this.model = model;
-        this.bindModel();
-    }
-    bindModel() {
-        this.model.on("change", ()=>{
-            this.render();
-        });
-    }
-    bindEvents(fragment) {
-        const eventsMap = this.eventsMap();
-        for(let eventKey in eventsMap){
-            const [eventName, selector] = eventKey.split(":");
-            fragment.querySelectorAll(selector).forEach((element)=>{
-                element.addEventListener(eventName, eventsMap[eventKey]);
-            });
-        }
-    }
-    render() {
-        this.parent.innerHTML = "";
-        const templateElement = document.createElement("template");
-        templateElement.innerHTML = this.template();
-        this.bindEvents(templateElement.content);
-        this.parent.append(templateElement.content);
+parcelHelpers.export(exports, "UserShow", ()=>UserShow);
+var _view = require("./View");
+class UserShow extends (0, _view.View) {
+    template() {
+        return `
+        <div>
+            <h1>User Detail</h1>
+            <div> User Name: ${this.model.get("name")}</div>
+            <div> User Age: ${this.model.get("age")}</div>
+            </div>
+        `;
     }
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"2J7cN"}]},["dgjXB","h7u1C"], "h7u1C", "parcelRequire94c2")
+},{"./View":"5Vo78","@parcel/transformer-js/src/esmodule-helpers.js":"2J7cN"}]},["dgjXB","h7u1C"], "h7u1C", "parcelRequire94c2")
 
 //# sourceMappingURL=index.b71e74eb.js.map
