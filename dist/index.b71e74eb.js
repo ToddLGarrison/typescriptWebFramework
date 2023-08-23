@@ -5096,7 +5096,8 @@ class UserForm extends (0, _view.View) {
     eventsMap() {
         return {
             "click:.set-age": this.onSetAgeClick,
-            "click:.set-name": this.onSetNameClick
+            "click:.set-name": this.onSetNameClick,
+            "click:.save-model": this.onSaveModelClick
         };
     }
     template() {
@@ -5105,11 +5106,15 @@ class UserForm extends (0, _view.View) {
                 <input placeholder="${this.model.get("name")}"/>
                 <button class="set-name">Update Name</button>
                 <button class="set-age">Set Random Age</button>
+                <button class="save-model">Save User</button>
             </div>
         `;
     }
     constructor(...args){
         super(...args);
+        this.onSaveModelClick = ()=>{
+            this.model.save();
+        };
         this.onSetAgeClick = ()=>{
             this.model.setRandomAge();
         };
@@ -5125,7 +5130,7 @@ class UserForm extends (0, _view.View) {
     }
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"2J7cN","./View":"5Vo78"}],"5Vo78":[function(require,module,exports) {
+},{"./View":"5Vo78","@parcel/transformer-js/src/esmodule-helpers.js":"2J7cN"}],"5Vo78":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "View", ()=>View);
