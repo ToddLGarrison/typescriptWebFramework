@@ -5091,10 +5091,25 @@ class Collection {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "UserForm", ()=>UserForm);
-class UserForm {
-    constructor(parent, model){
-        this.parent = parent;
-        this.model = model;
+var _view = require("./View");
+class UserForm extends (0, _view.View) {
+    eventsMap() {
+        return {
+            "click:.set-age": this.onSetAgeClick,
+            "click:.set-name": this.onSetNameClick
+        };
+    }
+    template() {
+        return `
+            <div>
+                <input placeholder="${this.model.get("name")}"/>
+                <button class="set-name">Update Name</button>
+                <button class="set-age">Set Random Age</button>
+            </div>
+        `;
+    }
+    constructor(...args){
+        super(...args);
         this.onSetAgeClick = ()=>{
             this.model.setRandomAge();
         };
@@ -5107,30 +5122,23 @@ class UserForm {
                 });
             }
         };
+    }
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"2J7cN","./View":"5Vo78"}],"5Vo78":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "View", ()=>View);
+class View {
+    constructor(parent, model){
+        this.parent = parent;
+        this.model = model;
         this.bindModel();
     }
     bindModel() {
         this.model.on("change", ()=>{
             this.render();
         });
-    }
-    eventsMap() {
-        return {
-            "click:.set-age": this.onSetAgeClick,
-            "click:.set-name": this.onSetNameClick
-        };
-    }
-    template() {
-        return `
-            <div>
-                <h1>User Form</h1>
-                <div>User name: ${this.model.get("name")}</div>
-                <div>User age: ${this.model.get("age")}</div>
-                <input/>
-                <button class="set-name">Update Name</button>
-                <button class="set-age">Set Random Age</button>
-            </div>
-        `;
     }
     bindEvents(fragment) {
         const eventsMap = this.eventsMap();
