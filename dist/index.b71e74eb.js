@@ -5100,10 +5100,12 @@ class UserForm {
         };
         this.onSetNameClick = ()=>{
             const input = this.parent.querySelector("input");
-            const name = input.value;
-            this.model.set({
-                name
-            });
+            if (input) {
+                const name = input.value;
+                this.model.set({
+                    name
+                });
+            }
         };
         this.bindModel();
     }
