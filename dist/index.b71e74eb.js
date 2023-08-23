@@ -5095,7 +5095,6 @@ class UserForm {
     constructor(parent, model){
         this.parent = parent;
         this.model = model;
-
         this.onSetAgeClick = ()=>{
             this.model.setRandomAge();
         };
@@ -5144,7 +5143,6 @@ class UserForm {
         this.parent.innerHTML = "";
         const templateElement = document.createElement("template");
         templateElement.innerHTML = this.template();
-      
         this.bindEvents(templateElement.content);
         this.parent.append(templateElement.content);
     }
